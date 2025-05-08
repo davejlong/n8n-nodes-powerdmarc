@@ -40,7 +40,7 @@
       "dist/credentials/PowerDmarcApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/PowerDmarc/PowerDmarc.node.js"
+      "dist/nodes/PowerDmarc/PowerDmarcMssp.node.js"
     ]
   },
   "devDependencies": {

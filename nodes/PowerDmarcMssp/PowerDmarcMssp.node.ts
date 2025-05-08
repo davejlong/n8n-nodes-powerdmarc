@@ -1,5 +1,8 @@
 import { INodeType, INodeTypeDescription } from "n8n-workflow";
 
+import * as accounts from './actions/accounts'
+import * as users from './actions/users';
+import { getAccountOptions } from "./methods/loadOptions";
 export class PowerDmarcMssp implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'PowerDMARC MSSP',
@@ -21,7 +24,7 @@ export class PowerDmarcMssp implements INodeType {
 			},
 		],
 		requestDefaults: {
-			baseURL: 'https://app.powerdmarc.com/api/v1',
+			baseURL: "=https://{{$credentials.subdomain}}.powerdmarc.com/api/v1/mssp",
 			headers: {
 				'Content-Type': 'application/json',
 				'Accept': 'application/json',
@@ -35,15 +38,23 @@ export class PowerDmarcMssp implements INodeType {
 				noDataExpression: true,
 				options: [
 					{ name: 'Account', value: 'account' },
-					{ name: 'Alert', value: 'alert' },
-					{ name: 'Domain', value: 'domain' },
-					{ name: 'Domain Report', value: 'domainreport' },
-					{ name: 'Hosted Service', value: 'hostedservice' },
-					{ name: 'Power Toolbox', value: 'powertoolbox'},
+					// { name: 'Alert', value: 'alert' },
+					// { name: 'Domain', value: 'domain' },
+					// { name: 'Domain Report', value: 'domainreport' },
+					// { name: 'Hosted Service', value: 'hostedservice' },
+					// { name: 'Power Toolbox', value: 'powertoolbox'},
 					{ name: 'User', value: 'user' },
 				],
-				default: 'user'
-			}
-		]
+				default: 'account'
+			},
+			...accounts.description,
+			...users.description,
+		],
+	};
+
+	methods = {
+		loadOptions: {
+			getAccountOptions,
+		}
 	};
 }

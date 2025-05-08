@@ -13,6 +13,13 @@ export class PowerDmarcApi implements ICredentialType {
 			typeOptions: { password: true, },
 			default: '',
 		},
+		{
+			displayName: 'Portal Subdomain',
+			name: 'subdomain',
+			type: 'string',
+			default: '',
+			placeholder: 'mymssp',
+		}
 	];
 
 	authenticate: IAuthenticateGeneric = {
@@ -21,20 +28,16 @@ export class PowerDmarcApi implements ICredentialType {
 			headers: {
 				'Content-Type': 'application/json',
 				'Accept': 'application/json',
-				'Authorization': "={{$credentials.apiToken}}",
+				'Authorization': "=Bearer {{$credentials.apiToken}}",
 			}
 		}
-
 	};
 
 	test: ICredentialTestRequest = {
 		request: {
-			baseURL: 'https://app.powerdmarc.com/api/v1',
-			url: '/mssp/resources',
+			baseURL: "=https://{{$credentials.subdomain}}.powerdmarc.com/api/v1",
+			url: '/mssp/settings',
 			method: 'GET',
-			qs: {
-				userType: 2,
-			}
 		},
 	}
 }
