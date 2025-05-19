@@ -48,5 +48,13 @@ module.exports = {
 				'n8n-nodes-base/node-param-fixed-collection-type-unsorted-items': 'off',
 			},
 		},
+		{
+			files: ['./nodes/**/*.node.ts'],
+			plugins: ['eslint-plugin-n8n-nodes-base'],
+			extends: ['plugin:n8n-nodes-base/nodes'],
+			rules: {
+				'n8n-nodes-base/node-filename-against-convention': 'off',
+			}
+		},
 	],
 };

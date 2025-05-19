@@ -15,14 +15,6 @@ const description: INodeProperties[] = [
 			request: {
 				url: '/accounts',
 			},
-			output: {
-				postReceive: [
-					{
-						type: 'rootProperty',
-						properties: { property: 'data' },
-					},
-				],
-			},
 		},
 		options: [
 			{
@@ -34,6 +26,11 @@ const description: INodeProperties[] = [
 				name: 'Get Many',
 				value: 'getAll',
 				action: 'Get accounts',
+				routing: {
+					send: {
+						paginate: true,
+					},
+				}
 			},
 		],
 		default: 'getAll',

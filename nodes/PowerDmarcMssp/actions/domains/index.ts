@@ -8,19 +8,19 @@ const description: INodeProperties[] = [
 		noDataExpression: true,
 		displayOptions: {
 			show: {
-				resource: ['user'],
+				resource: ['domain'],
 			},
 		},
 		options: [
 			{
 				name: 'Get',
 				value: 'get',
-				action: 'Get user',
+				action: 'Get domain',
 			},
 			{
 				name: 'Get Many',
 				value: 'getAll',
-				action: 'Get users',
+				action: 'Get domains',
 				routing: {
 					send: {
 						paginate: true,
@@ -44,13 +44,34 @@ const description: INodeProperties[] = [
 		default: '',
 		displayOptions: {
 			show: {
-				resource: ['user'],
+				resource: ['domain'],
 				operation: ['get', 'getAll'],
 			},
 		},
 		routing: {
 			request: {
-				url: "=/accounts/{{$value}}/members",
+				url: "=/accounts/{{$value}}/domains",
+			},
+		},
+	},
+
+	/**
+	 * Get Parameters
+	 */
+	{
+		displayName: 'Domain ID',
+		name: 'domainId',
+		type: 'number',
+		default: '',
+		displayOptions: {
+			show: {
+				resource: ['domain'],
+				operation: ['get'],
+			},
+		},
+		routing: {
+			request: {
+				url: "=/accounts/{{$accountId}}/domains/{{$value}}",
 			},
 		},
 	},

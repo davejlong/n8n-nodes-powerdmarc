@@ -1,8 +1,9 @@
 import { INodeType, INodeTypeDescription } from "n8n-workflow";
 
 import * as accounts from './actions/accounts'
+import * as domains from './actions/domains'
 import * as users from './actions/users';
-import { getAccountOptions } from "./methods/loadOptions";
+import { getAccounts, powerDmarcApiPagination } from "./GenericFunctions";
 export class PowerDmarcMssp implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'PowerDMARC MSSP',
@@ -30,6 +31,9 @@ export class PowerDmarcMssp implements INodeType {
 				'Accept': 'application/json',
 			},
 		},
+		requestOperations: {
+			pagination: powerDmarcApiPagination,
+		},
 		properties: [
 			{
 				displayName: 'Resource',
@@ -39,7 +43,7 @@ export class PowerDmarcMssp implements INodeType {
 				options: [
 					{ name: 'Account', value: 'account' },
 					// { name: 'Alert', value: 'alert' },
-					// { name: 'Domain', value: 'domain' },
+					{ name: 'Domain', value: 'domain' },
 					// { name: 'Domain Report', value: 'domainreport' },
 					// { name: 'Hosted Service', value: 'hostedservice' },
 					// { name: 'Power Toolbox', value: 'powertoolbox'},
@@ -48,13 +52,14 @@ export class PowerDmarcMssp implements INodeType {
 				default: 'account'
 			},
 			...accounts.description,
+			...domains.description,
 			...users.description,
 		],
 	};
 
 	methods = {
 		loadOptions: {
-			getAccountOptions,
+			getAccounts,
 		}
 	};
 }
