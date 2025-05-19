@@ -1,4 +1,5 @@
 import { INodeProperties } from "n8n-workflow";
+import { getAccountProperty } from "../../GenericFunctions";
 
 const description: INodeProperties[] = [
 	{
@@ -22,35 +23,36 @@ const description: INodeProperties[] = [
 				value: 'getAll',
 				action: 'Get users',
 				routing: {
+					request: {
+						url: "=/members",
+					},
 					send: {
 						paginate: true,
-					}
-				}
+					},
+				},
 			},
 		],
 		default: 'getAll',
 	},
+	getAccountProperty('user', ['get', 'getAll']),
+
 	/**
-	 * Get Many Parameters
+	 * Get Parameters
 	 */
 	{
-		displayName: 'Account Name or ID',
-		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code-examples/expressions/">expression</a>',
-		name: 'accountId',
-		type: 'options',
-		typeOptions: {
-			loadOptionsMethod: 'getAccounts',
-		},
+		displayName: 'User ID',
+		name: 'userId',
+		type: 'number',
 		default: '',
 		displayOptions: {
 			show: {
 				resource: ['user'],
-				operation: ['get', 'getAll'],
+				operation: ['get'],
 			},
 		},
 		routing: {
 			request: {
-				url: "=/accounts/{{$value}}/members",
+				url: "=/members/{{$value}}",
 			},
 		},
 	},

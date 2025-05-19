@@ -1,4 +1,4 @@
-import { DeclarativeRestApiSettings, IDataObject, IExecuteFunctions, IExecutePaginationFunctions, IExecuteSingleFunctions, IHookFunctions, IHttpRequestMethods, IHttpRequestOptions, ILoadOptionsFunctions, INodeExecutionData, INodePropertyOptions, IPollFunctions, IWebhookFunctions } from "n8n-workflow";
+import { DeclarativeRestApiSettings, IDataObject, IExecuteFunctions, IExecutePaginationFunctions, IExecuteSingleFunctions, IHookFunctions, IHttpRequestMethods, IHttpRequestOptions, ILoadOptionsFunctions, INodeExecutionData, INodeProperties, INodePropertyOptions, IPollFunctions, IWebhookFunctions } from "n8n-workflow";
 
 export async function powerDmarcApiRequest(
 	this:
@@ -62,6 +62,9 @@ export async function powerDmarcApiPagination(
 	return responseData;
 }
 
+/**
+ * Load Options
+ */
 export async function getAccounts(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
 	const responseData: INodePropertyOptions[] = [];
 	const qs = {
@@ -85,4 +88,31 @@ export async function getAccounts(this: ILoadOptionsFunctions): Promise<INodePro
 	} while (responseTotal > responseData.length)
 
 	return responseData;
+}
+
+/**
+ * Property Helpers
+ */
+export function getAccountProperty(resource: string, operations: string[]): INodeProperties {
+	return {
+		displayName: 'Account Name or ID',
+		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code-examples/expressions/">expression</a>',
+		name: 'accountId',
+		type: 'options',
+		typeOptions: {
+			loadOptionsMethod: 'getAccounts',
+		},
+		default: '',
+		displayOptions: {
+			show: {
+				resource: [resource],
+				operation: operations,
+			},
+		},
+		routing: {
+			request: {
+				baseURL: "=https://{{$credentials.subdomain}}.powerdmarc.com/api/v1/mssp/accounts/{{$value}}",
+			},
+		},
+	};
 }
