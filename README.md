@@ -1,4 +1,4 @@
-# n8n-nodes-powerdmark
+# n8n-nodes-powerdmarc
 
 This is an n8n community node to work with the PowerDMARC API in your n8n workflows.
 
